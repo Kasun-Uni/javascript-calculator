@@ -63,3 +63,60 @@ digitButtons.forEach(button => {
     inputDigit(button.textContent === "." ? "." : button.textContent);
   });
 });
+
+const operatorButtons = document.querySelectorAll(".operator");
+const equalsBtn = document.querySelector(".equals");
+
+function roundResult(num) {
+  return Math.round(num * 100000) / 100000;
+}
+
+function handleOperator(selectedOperator) {
+  const inputValue = parseFloat(currentInput);
+
+  if (operator && !shouldResetDisplay) {
+    // there's a pending operation waiting - evaluate it first
+    const result = operate(operator, firstNumber, inputValue);
+    if (typeof result === "string") {
+      display.textContent = result; // error message
+      firstNumber = null;
+      operator = null;
+      shouldResetDisplay = true;
+      return;
+    }
+    currentInput = String(roundResult(result));
+    updateDisplay();
+    firstNumber = roundResult(result);
+  } else {
+    firstNumber = inputValue;
+  }
+
+  shouldResetDisplay = true;
+  operator = selectedOperator;
+}
+
+operatorButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    handleOperator(button.dataset.operator);
+  });
+});
+
+equalsBtn.addEventListener("click", () => {
+  if (operator === null || shouldResetDisplay) {
+    return; // nothing to calculate
+  }
+
+  secondNumber = parseFloat(currentInput);
+  const result = operate(operator, firstNumber, secondNumber);
+
+  if (typeof result === "string") {
+    display.textContent = result; // divide by 0 error
+  } else {
+    currentInput = String(roundResult(result));
+    updateDisplay();
+  }
+
+  firstNumber = typeof result === "string" ? null : roundResult(result);
+  operator = null;
+  shouldResetDisplay = true;
+});
