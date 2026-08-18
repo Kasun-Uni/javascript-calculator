@@ -120,3 +120,14 @@ equalsBtn.addEventListener("click", () => {
   operator = null;
   shouldResetDisplay = true;
 });
+
+const backspaceBtn = document.querySelector(".backspace");
+
+backspaceBtn.addEventListener("click", () => {
+  if (shouldResetDisplay) return;
+  currentInput = currentInput.slice(0, -1);
+  if (currentInput === "" || currentInput === "-") {
+    currentInput = "0";
+  }
+  updateDisplay();
+});
