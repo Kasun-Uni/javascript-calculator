@@ -19,3 +19,15 @@ function operate(operator, a, b) {
       return null;
   }
 }
+
+const display = document.querySelector("#display");
+const clearBtn = document.querySelector(".clear");
+
+function clearAll() {
+  firstNumber = null;
+  operator = null;
+  secondNumber = null;
+  display.textContent = "0";
+}
+
+clearBtn.addEventListener("click", clearAll);
