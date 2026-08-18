@@ -1,18 +1,21 @@
-function add(a, b) {
-  return a + b;
-}
+let firstNumber = null;
+let operator = null;
+let secondNumber = null;
 
-function subtract(a, b) {
-  return a - b;
-}
+function operate(operator, a, b) {
+  a = Number(a);
+  b = Number(b);
 
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) {
-    return "Error: Cannot divide by 0";
+  switch (operator) {
+    case "+":
+      return add(a, b);
+    case "-":
+      return subtract(a, b);
+    case "*":
+      return multiply(a, b);
+    case "/":
+      return divide(a, b);
+    default:
+      return null;
   }
-  return a / b;
 }
