@@ -31,3 +31,35 @@ function clearAll() {
 }
 
 clearBtn.addEventListener("click", clearAll);
+const digitButtons = document.querySelectorAll(".digit, .decimal");
+let currentInput = "0";
+let shouldResetDisplay = false;
+
+function updateDisplay() {
+  display.textContent = currentInput;
+}
+
+function inputDigit(digit) {
+  if (shouldResetDisplay) {
+    currentInput = "";
+    shouldResetDisplay = false;
+  }
+
+  if (digit === "." && currentInput.includes(".")) {
+    return; // prevent multiple decimals
+  }
+
+  if (currentInput === "0" && digit !== ".") {
+    currentInput = digit;
+  } else {
+    currentInput += digit;
+  }
+
+  updateDisplay();
+}
+
+digitButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    inputDigit(button.textContent === "." ? "." : button.textContent);
+  });
+});
